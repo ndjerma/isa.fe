@@ -9,8 +9,6 @@ export default function UserCreate() {
     const [counter, setCounter] = useState(0);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState();
-    const [podatak, setPodatak] = useState();
-
 
     const getFirstName = async () => {
         setLoading(true);
@@ -20,23 +18,10 @@ export default function UserCreate() {
         setData(result.data);
         setLoading(false);
     }
- 
-    // obrisi, ja sam dodao
-    const getFirstNameList = async () => {
-        setLoading(true);
-
-        let rezultat = await get("/user/get-first-name-list");
-
-        console.log(rezultat.data);
-        setPodatak(rezultat.data);
-        setLoading(false);
-    }
-
 
     // useEffect je nesto sto se pokrece prvo na stranici => react
     useEffect(() => {
         getFirstName();
-        getFirstNameList();
     }, [counter]);
 
     return (
@@ -45,7 +30,6 @@ export default function UserCreate() {
                 <>
                     <h1>{data}</h1>
                     <br/>
-                    <h1>{podatak}</h1>
                     {/*<h1>{counter}</h1>*/}
                     {/*<br/>*/}
                     {/*<br/>*/}
