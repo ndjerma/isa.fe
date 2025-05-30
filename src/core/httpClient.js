@@ -1,6 +1,4 @@
 import axios from "axios";
-import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
-
 
 export const Axios = axios.create({
     baseURL: "http://localhost:8080",
@@ -10,4 +8,10 @@ export const Axios = axios.create({
     },
 });
 
-export const get = async (url, params) => await Axios.get(url, {params})
+export const get = async (url, params) => {
+    return await Axios.get(url, {params})
+}
+
+export const post = async (url, params) => {
+    return await Axios.post(url, params)
+}
