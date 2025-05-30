@@ -15,6 +15,7 @@
     "react": "^19.0.0",
     "react-data-table-component": "^7.7.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
     "reactstrap": "^9.2.3",
     "styled-components": "^6.1.18"
   }
