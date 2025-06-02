@@ -3,10 +3,10 @@
 import {useForm} from "react-hook-form";
 import {Button, Col, Row} from "reactstrap";
 import {post} from "@/core/httpClient";
-import {options} from "axios";
-import {error} from "next/dist/build/output/log";    //ovaj hook ce nam biti glavni baja za forme
+import {useTestActions} from "@/contexts/testContext";
+import testAction from "@/core/testAction";    //ovaj hook (useForm) ce nam biti glavni baja za forme
+                                                          // npm install react-hook-form    <=   treba da ga instaliramo
 
-// npm install react-hook-form    <=   treba da ga instaliramo
 
 
 export default function UserCreate() {
@@ -17,8 +17,30 @@ export default function UserCreate() {
         mode: "onSubmit"
     });
 
+    const {state, dispatch} = useTestActions();
+
     return (
         <>
+            <Row className="mb-3">
+                <h5>Email: {state.email}</h5>
+                <h5>First name: {state.firstName}</h5>
+                <Button className="btn btn-success mb-3" type="button" onClick={() => {
+                    dispatch({
+                        type: testAction.CHANGE_EMAIL,
+                        payload: "teacherJohnny@gmail.com"
+                    })
+                }}>
+                    Change email
+                </Button>
+                <Button className="btn btn-success" type="button" onClick={() => {
+                    dispatch({
+                        type: testAction.CHANGE_FIRST_NAME,
+                        payload: "Johnny"
+                    })
+                }}>
+                    Change first name
+                </Button>
+            </Row>
             <Row className="mb-3">
                 <Col md={6}>
                     <input type="text" className="form-control form-control-sm" placeholder="First Name" {...register("firstName", {

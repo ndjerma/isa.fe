@@ -3,7 +3,9 @@
 import useListData from "@/hooks/useListData";
 import DataTable from "react-data-table-component";
 import {useEffect, useState} from "react";
-import {Progress, Spinner} from "reactstrap";
+import {Button, Progress, Row, Spinner} from "reactstrap";
+import {useTestActions} from "@/contexts/testContext";
+import testAction from "@/core/testAction";
 
 export const tableColumns = [
     {
@@ -21,13 +23,16 @@ export const tableColumns = [
 export default function UserList(){
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const {getData, loading, data} = useListData(`user/get-user-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
+    const {state, dispatch} = useTestActions();
+
     // iznad stavljamo `pageNumber-1` jer na FE pocinje paginacija od 1 a na BE pocinje od 0, moramo da ih uskladimo
+    const {getData, loading, data} = useListData(`user/get-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
+
 
 
     // Ovo se prvo ucitava kada refreshujemo stranicu i uzima podatke iz get metode sa axiosom iz bekenda
     useEffect(()=>{
-        getData(`user/get-user-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
+        getData(`user/get-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
     }, [pageSize, pageNumber]);
 
     //Sa svakom promenom jedne od ove dve funkcije, refreshuje se page, i dolazi do promene URL-a
@@ -47,6 +52,26 @@ export default function UserList(){
 
     return (
         <>
+            <Row className="mb-3">
+                <h5>Email: {state.email}</h5>
+                <h5>First name: {state.firstName}</h5>
+                <Button className="btn btn-success mb-3" type="button" onClick={() => {
+                    dispatch({
+                        type: testAction.CHANGE_EMAIL,
+                        payload: "ndjermanovic@singidunum.ac.rs"
+                    })
+                }}>
+                    Change email
+                </Button>
+                <Button className="btn btn-success" type="button" onClick={() => {
+                    dispatch({
+                        type: testAction.CHANGE_FIRST_NAME,
+                        payload: "Nikola"
+                    })
+                }}>
+                    Change first name
+                </Button>
+            </Row>
             {data && <DataTable data={data.users}
                        columns={tableColumns}
                        striped={true}
