@@ -3,9 +3,14 @@
 import useListData from "@/hooks/useListData";
 import DataTable from "react-data-table-component";
 import {useEffect, useState} from "react";
-import {Button, Progress, Row, Spinner} from "reactstrap";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader, Progress, Row, Spinner} from "reactstrap";
 import {useTestActions} from "@/contexts/testContext";
 import testAction from "@/core/testAction";
+import {FiEdit2} from "react-icons/fi";
+import {BsEraser} from "react-icons/bs";
+import listAction from "@/core/listAction";
+import {useListActions} from "@/contexts/listActionContext";
+import AllUserDialogs from "@/elements/User/AllUserDialogs";
 
 export const tableColumns = [
     {
@@ -17,16 +22,47 @@ export const tableColumns = [
         name: "Last Name",
         selector: (row) => `${row.lastName}`,
         sortable: false
+    },
+    {
+        name: "Options",
+        selector: (row) => `${row.lastName}`,
+        cell: (row) => {
+            const {dispatch} = useListActions();
+            return (
+                <>
+                    <Button className="btn btn-light me-3" onClick={() => {
+                        dispatch({
+                            type: listAction.UPDATE,
+                            payload: row
+                        })
+                    }}>
+                        <FiEdit2 />
+                    </Button>
+                    <Button className="btn btn-light me-3" onClick={() => {
+                        dispatch({
+                            type: listAction.DELETE,
+                            payload: row
+                        })
+                    }}>
+                        <BsEraser />
+                    </Button>
+                </>
+            );
+        },
+        sortable: false
     }
 ]
 
 export default function UserList(){
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const {state, dispatch} = useTestActions();
 
     // iznad stavljamo `pageNumber-1` jer na FE pocinje paginacija od 1 a na BE pocinje od 0, moramo da ih uskladimo
-    const {getData, loading, data} = useListData(`user/get-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
+    const {
+        getData,
+        loading,
+        data
+    } = useListData(`user/get-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
 
 
 
@@ -52,26 +88,6 @@ export default function UserList(){
 
     return (
         <>
-            <Row className="mb-3">
-                <h5>Email: {state.email}</h5>
-                <h5>First name: {state.firstName}</h5>
-                <Button className="btn btn-success mb-3" type="button" onClick={() => {
-                    dispatch({
-                        type: testAction.CHANGE_EMAIL,
-                        payload: "ndjermanovic@singidunum.ac.rs"
-                    })
-                }}>
-                    Change email
-                </Button>
-                <Button className="btn btn-success" type="button" onClick={() => {
-                    dispatch({
-                        type: testAction.CHANGE_FIRST_NAME,
-                        payload: "Nikola"
-                    })
-                }}>
-                    Change first name
-                </Button>
-            </Row>
             {data && <DataTable data={data.users}
                        columns={tableColumns}
                        striped={true}
@@ -85,6 +101,7 @@ export default function UserList(){
                        progressComponent={<Spinner color="danger"> Ocitavanje...</Spinner>}
                        highlightOnHover
             />}
+            <AllUserDialogs />
         </>
     );
 }
