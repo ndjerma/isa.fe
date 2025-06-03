@@ -10,7 +10,8 @@ import testAction from "@/core/testAction";    //ovaj hook (useForm) ce nam biti
 
 
 export default function UserCreate() {
-    const {register,
+    const {
+        register,
         watch,
         handleSubmit,
         formState: {errors}} = useForm({

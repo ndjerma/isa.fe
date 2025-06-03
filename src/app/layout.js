@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import {TestProvider} from "@/contexts/testContext";
+import {ListActionProvider} from "@/contexts/listActionContext";
 
 export default function RootLayout({ children }) {
   return (
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
               <Header />
                 <main>
                     <TestProvider>
-                        {children}
+                        <ListActionProvider>
+                            {children}
+                        </ListActionProvider>
                     </TestProvider>
                 </main>
               <Footer />
