@@ -23,26 +23,6 @@ export default function UserCreate() {
     return (
         <>
             <Row className="mb-3">
-                <h5>Email: {state.email}</h5>
-                <h5>First name: {state.firstName}</h5>
-                <Button className="btn btn-success mb-3" type="button" onClick={() => {
-                    dispatch({
-                        type: testAction.CHANGE_EMAIL,
-                        payload: "teacherJohnny@gmail.com"
-                    })
-                }}>
-                    Change email
-                </Button>
-                <Button className="btn btn-success" type="button" onClick={() => {
-                    dispatch({
-                        type: testAction.CHANGE_FIRST_NAME,
-                        payload: "Johnny"
-                    })
-                }}>
-                    Change first name
-                </Button>
-            </Row>
-            <Row className="mb-3">
                 <Col md={6}>
                     <input type="text" className="form-control form-control-sm" placeholder="First Name" {...register("firstName", {
                         required: "First name is required.",
@@ -93,7 +73,7 @@ export default function UserCreate() {
                 <Col md={12} className="d-flex justify-content-end">
                     <Button className="btn btn-primary" type="button" onClick={() => {
                         handleSubmit(async (data) => {
-                           await post("/user/create-user-body", data);
+                           await post("/user/create", data);
                         })();    // <= referenca na komentar dole
                     }}>
                         Submit

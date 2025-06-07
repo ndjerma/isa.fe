@@ -18,7 +18,7 @@ const listActionContext  = createContext();
 const listActionReducer = (state, action) => {
     switch (action.type) {
         case listAction.RELOAD:        // ovo vucemo iz core/listAction.js kao konstantu
-            return {...state, reload: action.payload};
+            return {...initialState, reload: true};
         case listAction.UPDATE:
             return {...state, row: action.payload, type: listAction.UPDATE};
         case listAction.RESET:

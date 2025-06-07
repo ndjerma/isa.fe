@@ -24,6 +24,11 @@ export const tableColumns = [
         sortable: false
     },
     {
+        name: "Contact Number",
+        selector: (row) => `${row.contactNumber}`,
+        sortable: false
+    },
+    {
         name: "Options",
         selector: (row) => `${row.lastName}`,
         cell: (row) => {
@@ -56,6 +61,8 @@ export const tableColumns = [
 export default function UserList(){
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const {state, dispatch} = useListActions();
+
 
     // iznad stavljamo `pageNumber-1` jer na FE pocinje paginacija od 1 a na BE pocinje od 0, moramo da ih uskladimo
     const {
@@ -70,6 +77,12 @@ export default function UserList(){
     useEffect(()=>{
         getData(`user/get-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
     }, [pageSize, pageNumber]);
+
+    useEffect(()=>{
+        if(state.reload){
+            getData(`user/get-page-list?pageNumber=${pageNumber-1}&pageSize=${pageSize}`);
+        }
+    }, [state]);
 
     //Sa svakom promenom jedne od ove dve funkcije, refreshuje se page, i dolazi do promene URL-a
     // A ako se URL menja, ponovo se poziva useEffect i samim tim getData(), pa dobijamo
