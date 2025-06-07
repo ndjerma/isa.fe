@@ -37,7 +37,7 @@ const UpdateUserDialog = ({isOpen}) => {
                 <ModalHeader toggle={toggle}>Modal title</ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
-                        <Col md={6}>
+                        <Col md={6} className="mb-1">
                             <input type="text" className="form-control form-control-sm" placeholder="First Name" {...register("firstName", {
                                 required: "First name is required.",
                                 maxLength: 50,
@@ -59,7 +59,7 @@ const UpdateUserDialog = ({isOpen}) => {
                         </Col>
                     </Row>
                     <Row className="mb-3">
-                        <Col md={6}>
+                        <Col md={6} className="mb-1">
                             <input type="email" className="form-control form-control-sm" placeholder="Email" {...register("email", {
                                 required: "Email is required.",
                             })} />
@@ -80,6 +80,16 @@ const UpdateUserDialog = ({isOpen}) => {
                             })} />
                             {errors && errors.contactNumber && (
                                 <span className="text-danger">{errors.contactNumber.message}</span>
+                            )}
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <Col md={6} className="mb-1">
+                            <input type="password" className="form-control form-control-sm" placeholder="Password" {...register("password", {
+                                required: "Password is required.",
+                            })} />
+                            {errors && errors.password && (
+                                <span className="text-danger">{errors.password.message}</span>
                             )}
                         </Col>
                     </Row>
