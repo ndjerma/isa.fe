@@ -2,13 +2,11 @@ import {Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reac
 import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import {useForm} from "react-hook-form";
-import {post, put} from "@/core/httpClient";
-import {useEffect} from "react";
-import {toast} from "react-toastify";
+import {post} from "@/core/httpClient";
 
-const UpdateUserDialog = ({isOpen}) => {
-    const {state, dispatch} = useListActions();
-    // console.log(state.row);
+const CreateUserDialog = ({isOpen}) => {
+
+    const {dispatch} = useListActions();
 
     const toggle = () => dispatch({
         type: listAction.RESET
@@ -21,17 +19,8 @@ const UpdateUserDialog = ({isOpen}) => {
         formState: {errors},
         setValue,
     } = useForm({
-        mode: "onSubmit",
-        defaultValues: state.row
+        mode: "onSubmit"
     });
-
-    useEffect(() => {
-        setValue("firstName", state.row.firstName);
-        setValue("lastName", state.row.lastName);
-        setValue("email", state.row.email);
-        setValue("id", state.row.id);
-        setValue("contactNumber", state.row.contactNumber);
-    }, [state])
 
     return (
             <Modal isOpen={isOpen} toggle={toggle}>
@@ -98,10 +87,10 @@ const UpdateUserDialog = ({isOpen}) => {
                 <ModalFooter>
                     <Button className="btn btn-success" type="button" onClick={() => {
                         handleSubmit(async (data) => {
-                            await put("/user/update", data);
-                            toast.success('Successfully updated user');
+                            await post("/user/create", data);
+
                             dispatch({
-                                type: listAction.RELOAD,
+                                type: listAction.RELOAD
                             })
                         })();
                     }}>
@@ -115,4 +104,4 @@ const UpdateUserDialog = ({isOpen}) => {
     );
 }
 
-export default UpdateUserDialog;
+export default CreateUserDialog;

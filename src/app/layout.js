@@ -5,6 +5,8 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import {TestProvider} from "@/contexts/testContext";
 import {ListActionProvider} from "@/contexts/listActionContext";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RootLayout({ children }) {
   return (
@@ -20,6 +22,7 @@ export default function RootLayout({ children }) {
                     </TestProvider>
                 </main>
               <Footer />
+              <ToastContainer />
           </div>
       </body>
     </html>

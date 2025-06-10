@@ -9,9 +9,17 @@ export const Axios = axios.create({
 });
 
 export const get = async (url, params) => {
-    return await Axios.get(url, {params})
+    return await Axios.get(url, {params});
 }
 
 export const post = async (url, params) => {
-    return await Axios.post(url, params)
+    return await Axios.post(url, params);
+}
+
+export const put = async (url, params) => {
+    return await Axios.put(url, params);
+}
+
+export const del = async (url) => {
+    return await Axios.delete(url);
 }
