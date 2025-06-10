@@ -2,8 +2,9 @@ import {Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reac
 import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import {useForm} from "react-hook-form";
-import {post} from "@/core/httpClient";
+import {post, put} from "@/core/httpClient";
 import {useEffect} from "react";
+import {toast} from "react-toastify";
 
 const UpdateUserDialog = ({isOpen}) => {
     const {state, dispatch} = useListActions();
@@ -97,8 +98,8 @@ const UpdateUserDialog = ({isOpen}) => {
                 <ModalFooter>
                     <Button className="btn btn-success" type="button" onClick={() => {
                         handleSubmit(async (data) => {
-                            await post("/user/update", data);
-
+                            await put("/user/update", data);
+                            toast.success('Successfully updated user');
                             dispatch({
                                 type: listAction.RELOAD,
                             })

@@ -3,14 +3,19 @@
 import useListData from "@/hooks/useListData";
 import DataTable from "react-data-table-component";
 import {useEffect, useState} from "react";
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader, Progress, Row, Spinner} from "reactstrap";
-import {useTestActions} from "@/contexts/testContext";
-import testAction from "@/core/testAction";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Spinner
+} from "reactstrap";
 import {FiEdit2} from "react-icons/fi";
 import {BsEraser} from "react-icons/bs";
 import listAction from "@/core/listAction";
 import {useListActions} from "@/contexts/listActionContext";
 import AllUserDialogs from "@/elements/User/AllUserDialogs";
+import {IoAddCircleOutline} from "react-icons/io5";
 
 export const tableColumns = [
     {
@@ -33,9 +38,10 @@ export const tableColumns = [
         selector: (row) => `${row.lastName}`,
         cell: (row) => {
             const {dispatch} = useListActions();
+
             return (
                 <>
-                    <Button className="btn btn-light me-3" onClick={() => {
+                    <Button className="btn btn-success me-3" onClick={() => {
                         dispatch({
                             type: listAction.UPDATE,
                             payload: row
@@ -43,7 +49,7 @@ export const tableColumns = [
                     }}>
                         <FiEdit2 />
                     </Button>
-                    <Button className="btn btn-light me-3" onClick={() => {
+                    <Button className="btn btn-danger me-3" onClick={() => {
                         dispatch({
                             type: listAction.DELETE,
                             payload: row
@@ -101,19 +107,33 @@ export default function UserList(){
 
     return (
         <>
-            {data && <DataTable data={data.users}
-                       columns={tableColumns}
-                       striped={true}
-                       noHeader={true}
-                       pagination
-                       paginationServer
-                       progressPending={loading}
-                       paginationTotalRows={data.totalElements}
-                       onChangePage={handlePageChange}
-                       onChangeRowsPerPage={handlePerRowsChange}
-                       progressComponent={<Spinner color="danger"> Ocitavanje...</Spinner>}
-                       highlightOnHover
-            />}
+            <Card>
+                <CardHeader className="d-flex justify-content-end">
+                    <Button className="btn btn-success me-3" onClick={() => {
+                        dispatch({
+                            type: listAction.CREATE
+                        })
+                    }}>
+                        Create User
+                    </Button>
+                </CardHeader>
+                <CardBody>
+                    {data != null && <DataTable data={data.users}
+                                        columns={tableColumns}
+                                        striped={true}
+                                        noHeader={true}
+                                        pagination
+                                        paginationServer
+                                        progressPending={loading}
+                                        paginationTotalRows={data.totalElements}
+                                        onChangePage={handlePageChange}
+                                        onChangeRowsPerPage={handlePerRowsChange}
+                                        progressComponent={<Spinner color="danger"> Ocitavanje...</Spinner>}
+                                        highlightOnHover
+                    />}
+                </CardBody>
+            </Card>
+
             <AllUserDialogs />
         </>
     );

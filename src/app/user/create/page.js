@@ -73,8 +73,9 @@ export default function UserCreate() {
                 <Col md={12} className="d-flex justify-content-end">
                     <Button className="btn btn-primary" type="button" onClick={() => {
                         handleSubmit(async (data) => {
+                            // console.log(data);
                            await post("/user/create", data);
-                        })();    // <= referenca na komentar dole
+                        })();
                     }}>
                         Submit
                     </Button>
