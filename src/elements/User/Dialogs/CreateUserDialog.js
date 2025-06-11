@@ -3,6 +3,7 @@ import {useListActions} from "@/contexts/listActionContext";
 import listAction from "@/core/listAction";
 import {useForm} from "react-hook-form";
 import {post} from "@/core/httpClient";
+import {toast} from "react-toastify";
 
 const CreateUserDialog = ({isOpen}) => {
 
@@ -87,11 +88,13 @@ const CreateUserDialog = ({isOpen}) => {
                 <ModalFooter>
                     <Button className="btn btn-success" type="button" onClick={() => {
                         handleSubmit(async (data) => {
-                            await post("/user/create", data);
-
-                            dispatch({
-                                type: listAction.RELOAD
-                            })
+                            let result = await post("/user/create", data);
+                            if(result && result.status === 200){
+                                toast.success('Successfully created user!');
+                                dispatch({
+                                    type: listAction.RELOAD
+                                });
+                            }
                         })();
                     }}>
                         Submit

@@ -26,11 +26,13 @@ const DeleteUserDialog = ({isOpen}) => {
                 </ModalBody>
                 <ModalFooter>
                     <Button className="btn btn-success" type="button" onClick={async () => {
-                        await del(`/user/delete?userId=${state.row.id}`);
-                        toast.success("User deleted successfully.");
-                        dispatch({
-                            type: listAction.RELOAD,
-                        })
+                        let result = await del(`/user/delete?userId=${state.row.id}`);
+                        if(result && result.status === 200) {
+                            toast.success("User deleted successfully.");
+                            dispatch({
+                                type: listAction.RELOAD,
+                            })
+                        }
                     }}>
                         Delete user
                     </Button>

@@ -98,11 +98,14 @@ const UpdateUserDialog = ({isOpen}) => {
                 <ModalFooter>
                     <Button className="btn btn-success" type="button" onClick={() => {
                         handleSubmit(async (data) => {
-                            await put("/user/update", data);
-                            toast.success('Successfully updated user');
-                            dispatch({
-                                type: listAction.RELOAD,
-                            })
+                            let result = await put("/user/update", data);
+
+                            if(result.status === 200) {
+                                toast.success('Successfully updated user');
+                                dispatch({
+                                    type: listAction.RELOAD,
+                                })
+                            }
                         })();
                     }}>
                         Submit

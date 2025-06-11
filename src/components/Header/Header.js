@@ -16,7 +16,6 @@ export default function Header() {
 
                 <nav className="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                     <Link href={"/user/list"} className="me-3 py-2 text-dark text-decoration-none">Users</Link>
-                    <Link href={"/user/create"} className="me-3 py-2 text-dark text-decoration-none">User Create</Link>
                 </nav>
             </div>
         </header>
