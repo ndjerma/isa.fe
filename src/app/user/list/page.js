@@ -109,6 +109,7 @@ export default function UserList(){
         <>
             <Card>
                 <CardHeader className="d-flex justify-content-end">
+                    <button onClick={() => {}}>Sign in</button>
                     <Button className="btn btn-success me-3" onClick={() => {
                         dispatch({
                             type: listAction.CREATE
