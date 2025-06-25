@@ -1,6 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import {post} from "@/core/httpClient";
+import {jwtDecode} from "jwt-decode";
 
 
 const handler = NextAuth({
@@ -12,10 +13,10 @@ const handler = NextAuth({
                 password: {label: "Password", type: "Password"},
             },
             async authorize(credentials, req) {
-                const res = await post("/auth/login", JSON.stringify({
-                    email: credentials.email,
-                    password: credentials.password,
-                }));
+                const res = await post("/auth/login", {
+                        email: credentials?.email,
+                        password: credentials?.password,
+                });
 
                 console.log(res);
 
@@ -27,18 +28,20 @@ const handler = NextAuth({
             },
         }),
     ],
-    // callbacks: {
-    //    async jwt({token, user, trigger, session}){
-    //        if(trigger === "update"){
-    //            return { ...token, ...session.user };
-    //        }
-    //        return {...token, ...user};
-    //    },
-    //     async session({ session, token }) {
-    //        session.user = token;
-    //        return session;
-    //     },
-    // },
+    callbacks: {
+       async jwt({token, user, trigger, session}){
+           if(trigger === "update"){
+               return { ...token, ...session.user };
+           }
+           return {...token, ...user};
+       },
+
+        async session({ session, token }) {
+           session.user = token;
+           session.decoded = jwtDecode(session.user.token)
+           return session;
+        },
+    },
     // pages: {
     //     signIn: "/[...nextauth]/login",
     // },
