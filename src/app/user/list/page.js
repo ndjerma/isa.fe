@@ -16,6 +16,7 @@ import listAction from "@/core/listAction";
 import {useListActions} from "@/contexts/listActionContext";
 import AllUserDialogs from "@/elements/User/AllUserDialogs";
 import {IoAddCircleOutline} from "react-icons/io5";
+import {signIn, useSession} from "next-auth/react";
 
 export const tableColumns = [
     {
@@ -94,22 +95,24 @@ export default function UserList(){
     // A ako se URL menja, ponovo se poziva useEffect i samim tim getData(), pa dobijamo
     // nove podatke, tj napravi se novi poziv ka bekendu i dobijamo update u tabeli sa korisnicima
 
-        // Sledeca / Prethodna stranica
-        const handlePageChange = async (page)=> {
-            setPageNumber(page);
-        }
+    // Sledeca / Prethodna stranica
+    const handlePageChange = async (page)=> {
+        setPageNumber(page);
+    }
 
-        // Broj redova po jednoj stranici
-        const handlePerRowsChange = async (newPerPage, page) => {
-            setPageNumber(page);
-            setPageSize(newPerPage);
-        }
+    // Broj redova po jednoj stranici
+    const handlePerRowsChange = async (newPerPage, page) => {
+        setPageNumber(page);
+        setPageSize(newPerPage);
+    }
+
+    const {data: session, status } = useSession();
+    // console.log(session);
 
     return (
         <>
             <Card>
                 <CardHeader className="d-flex justify-content-end">
-                    <button onClick={() => {}}>Sign in</button>
                     <Button className="btn btn-success me-3" onClick={() => {
                         dispatch({
                             type: listAction.CREATE
